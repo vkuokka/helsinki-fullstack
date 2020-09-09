@@ -7,16 +7,29 @@ const Vote = (props) => () => {
   return copy
 }
 
+const Greatest = (props) => {
+  const greatest = props.votes.indexOf(Math.max(...props.votes))
+    return (
+      <div>
+        <h1>Anecdote with most votes</h1>
+        <p>{anecdotes[greatest]}</p>
+        <p>has {props.votes[greatest]} votes</p>
+      </div>
+    )
+}
+
 const App = (props) => {
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(Array(anecdotes.length).fill(0))
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{props.anecdotes[selected]}</p>
-      <p>{votes[selected]}</p>
+      <p>has {votes[selected]} votes</p>
       <button onClick={() => {setVotes(Vote({selected, votes}))}}>vote</button>
       <button onClick={() => {setSelected(Math.floor(Math.random() * anecdotes.length))}}>next anectode</button>
+      <Greatest selected={selected} votes={votes}/>
     </div>
   )
 }
