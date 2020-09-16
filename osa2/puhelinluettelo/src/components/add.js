@@ -5,7 +5,12 @@ const Add = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber}
 	const addName = (event) => {
 		event.preventDefault(event)
 		if (persons.filter(person => person.name === newName).length !== 0) {
-			window.alert(`${newName} is already added to phonebook`)
+			if (window.confirm(`${newName} is already added to phonebook, replace the old number with new one?`)) {
+				const modifiedObject = {...persons.find(person => person.name === newName), number : newNumber}
+				personService.update(modifiedObject)
+					.then(returnedPerson => setPersons(persons
+						.map(person => person.name !== returnedPerson.name ? person : returnedPerson)))
+			}
 		}
 		else {
 			const personObject = {
