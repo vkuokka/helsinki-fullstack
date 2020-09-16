@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Filter from './components/filter'
 import Add from './components/add'
 import List from './components/list'
-import axios from 'axios'
+import personService from './components/services/person'
+
 
 const App = () => {
   const [ persons, setPersons ] = useState([])
@@ -11,11 +12,8 @@ const App = () => {
   const [ newFilter, setNewFilter ] = useState('')
 
   const hook = () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
+    personService.getAll()
+      .then(list => setPersons(list))
   }
   useEffect(hook, [])
   return (

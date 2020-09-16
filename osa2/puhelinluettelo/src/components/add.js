@@ -1,4 +1,5 @@
 import React from 'react'
+import personService from './services/person'
 
 const Add = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber}) => {
 	const addName = (event) => {
@@ -8,10 +9,11 @@ const Add = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber}
 		}
 		else {
 			const personObject = {
-			name: newName,
-			number: newNumber
+				name: newName,
+				number: newNumber
 			}
-			setPersons(persons.concat(personObject))
+			personService.create(personObject)
+				.then(returnedPerson => setPersons(persons.concat(returnedPerson)))
 		}
 	  setNewName('')
 	  setNewNumber('')
