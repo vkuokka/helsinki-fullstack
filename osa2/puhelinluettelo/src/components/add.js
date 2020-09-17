@@ -1,15 +1,19 @@
 import React from 'react'
 import personService from './services/person'
 
-const Add = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber}) => {
+const Add = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber, setMessage, setError}) => {
 	const addName = (event) => {
 		event.preventDefault(event)
 		if (persons.filter(person => person.name === newName).length !== 0) {
 			if (window.confirm(`${newName} is already added to phonebook, replace the old number with new one?`)) {
 				const modifiedObject = {...persons.find(person => person.name === newName), number : newNumber}
 				personService.update(modifiedObject)
-					.then(returnedPerson => setPersons(persons
-						.map(person => person.name !== returnedPerson.name ? person : returnedPerson)))
+					.then(returnedPerson => {
+						setPersons(persons.map(person => person.name !== returnedPerson.name ? person : returnedPerson))
+						setMessage(`Changed ${modifiedObject.name} number`)
+					})
+					.catch(error => setError(`Information of ${modifiedObject.name} has already been removed from server`))
+					setTimeout (() => setMessage(null), 3000)
 			}
 		}
 		else {
@@ -19,6 +23,8 @@ const Add = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber}
 			}
 			personService.create(personObject)
 				.then(returnedPerson => setPersons(persons.concat(returnedPerson)))
+			setMessage(`Added ${personObject.name}`)
+			setTimeout (() => setMessage(null), 3000)
 		}
 	  setNewName('')
 	  setNewNumber('')

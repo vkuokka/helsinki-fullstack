@@ -1,13 +1,15 @@
 import React from 'react'
 import personService from './services/person'
 
-const List = ({persons, setPersons, newFilter}) => {
+const List = ({persons, setPersons, newFilter, setMessage}) => {
 	const remove = (person) => {
 		if (window.confirm(`Delete ${person.name} ?`)) {
 			personService.remove(person.id)
 				.then(returnedPerson => {
 					setPersons(persons.filter(x => x.id !== person.id))
 				})
+			setMessage(`Removed ${person.name}`)
+			setTimeout(() => setMessage(null), 3000)
 		}
 	}
 	const personList = persons
