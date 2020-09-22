@@ -1,7 +1,7 @@
 import React from 'react'
 import personService from './services/person'
 
-const Add = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber, setMessage, setError}) => {
+const Add = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber, setMessage}) => {
 	const addName = (event) => {
 		event.preventDefault(event)
 		if (persons.filter(person => person.name === newName).length !== 0) {
@@ -10,10 +10,12 @@ const Add = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber,
 				personService.update(modifiedObject)
 					.then(returnedPerson => {
 						setPersons(persons.map(person => person.name !== returnedPerson.name ? person : returnedPerson))
-						setMessage(`Changed ${modifiedObject.name} number`)
+						setMessage({text: `Changed ${modifiedObject.name} number`, type: 'success'})
 					})
-					.catch(error => setError(`Information of ${modifiedObject.name} has already been removed from server`))
-					setTimeout (() => setMessage(null), 3000)
+					.catch(error => setMessage(
+						{text: `Information of ${modifiedObject.name} has already been removed from server`, type: 'failure'}
+					))
+					setTimeout (() => setMessage({message: null, type: null}), 3000)
 			}
 		}
 		else {
@@ -23,8 +25,8 @@ const Add = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber,
 			}
 			personService.create(personObject)
 				.then(returnedPerson => setPersons(persons.concat(returnedPerson)))
-			setMessage(`Added ${personObject.name}`)
-			setTimeout (() => setMessage(null), 3000)
+			setMessage({text: `Added ${personObject.name}`, type: 'success'})
+			setTimeout (() => setMessage({message: null, type: null}), 3000)
 		}
 	  setNewName('')
 	  setNewNumber('')

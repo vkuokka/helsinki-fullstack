@@ -1,21 +1,21 @@
 import React from 'react'
 import '../index.css'
 
-const Notification = ({message, error}) => {
-	if (message === null && error === null) {
+const Notification = ({message}) => {
+	if (!message.text) {
 		return null
 	}
-	if (message) {
+	else if (message.type === 'success') {
 		return (
 			<div className="success">
-				{message}
+				{message.text}
 			</div>
 		)
 	}
-	if (error) {
+	else if (message.type === 'failure') {
 		return (
 			<div className="failure">
-				{error}
+				{message.text}
 			</div>
 		)
 	}

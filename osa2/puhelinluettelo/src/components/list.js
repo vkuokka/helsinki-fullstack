@@ -8,8 +8,8 @@ const List = ({persons, setPersons, newFilter, setMessage}) => {
 				.then(returnedPerson => {
 					setPersons(persons.filter(x => x.id !== person.id))
 				})
-			setMessage(`Removed ${person.name}`)
-			setTimeout(() => setMessage(null), 3000)
+			setMessage({text: `Removed ${person.name}`, type: 'success'})
+			setTimeout(() => setMessage({message: null, type: null}), 3000)
 		}
 	}
 	const personList = persons
