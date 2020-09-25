@@ -24,8 +24,13 @@ const Add = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber,
 				number: newNumber
 			}
 			personService.create(personObject)
-				.then(returnedPerson => setPersons(persons.concat(returnedPerson)))
-			setMessage({text: `Added ${personObject.name}`, type: 'success'})
+				.then(returnedPerson => {
+					setPersons(persons.concat(returnedPerson))
+					setMessage({text: `Added ${personObject.name}`, type: 'success'})
+				})
+				.catch(error => {
+					setMessage({text: error.response.data.error, type: 'failure'})
+				})
 			setTimeout (() => setMessage({message: null, type: null}), 3000)
 		}
 	  setNewName('')
