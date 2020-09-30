@@ -18,13 +18,14 @@ const favouriteBlog = (blogs) => {
 	}, null)
 }
 
-const mostBlogs = (blogs) => {
-	return null
-}
+const mostBlogs = (blogs) => { }
+
+const mostLikes = (blogs) => { }
 
 module.exports = {
 	dummy,
 	totalLikes,
 	favouriteBlog,
 	mostBlogs,
+	mostLikes,
 }
