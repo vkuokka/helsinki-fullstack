@@ -5,6 +5,7 @@ const helper = require('./test_helper')
 
 const Blog = require('../models/blog')
 const { initialBlogs } = require('./test_helper')
+const test_helper = require('./test_helper')
 const api = supertest(app)
 
 beforeEach(async () => {
@@ -73,6 +74,26 @@ test('server responds bad request if url is not set', async () => {
 	}
 	await api.post('/api/blogs').send(blog)
 		.expect(400)
+})
+
+test('Blog with specific id is deleted', async () => {
+	let response = await api.get('/api/blogs').expect(200)
+	const blogs = response.body
+	await api.delete(`/api/blogs/${blogs[0].id}`).expect(204)
+	response = await api.get('/api/blogs').expect(200)
+	expect(response.body.length).toEqual(blogs.length - 1)
+	response.body.forEach(blog => {
+		expect(blog.title).not.toContain(blogs[0].title)
+	})
+})
+
+test('Specific blog is updated', async () => {
+	let response = await api.get('/api/blogs').expect(200)
+	const blogs = response.body
+	blogs[0].likes += 1
+	await api.put(`/api/blogs/${blogs[0].id}`).send(blogs[0]).expect(200)
+	response = await api.get('/api/blogs').expect(200)
+	expect(response.body.find(blog => blog.title === blogs[0].title).likes).toEqual(8)
 })
 
 afterAll(() => {
