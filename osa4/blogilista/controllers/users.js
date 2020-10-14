@@ -5,16 +5,30 @@ const User = require('../models/user')
 usersRouter.post('/', async (request, response) => {
 	const body = request.body
 
+	if (!body.user || !body.username || !body.password) {
+		return response.status(400).json({ error: 'missing content' })
+	}
+	if (body.password.length < 3) {
+		return response.status(400).json({ error: 'password too short' })
+	}
+
 	const saltRounds = 10
 	const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
 	const user = new User({
-	username: body.username,
-		name: body.name,
+		user: body.user,
+		username: body.username,
 		passwordHash,
 	})
-	const savedUser = await user.save()
-	response.json(savedUser)
+
+	try {
+		await user.save()
+	}
+	catch (error){
+		return response.status(400).json({ error: 'requirements not met' })
+	}
+
+	response.status(201).end()
 })
 
 usersRouter.get('/', async (request, response) => {
