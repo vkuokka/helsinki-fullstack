@@ -13,10 +13,10 @@ const api = supertest(app)
 
 beforeEach(async () => {
 	await Blog.deleteMany({})
+	await User.deleteMany({})
 	const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
 	const promiseArray = blogObjects.map(blog => blog.save())
 	await Promise.all(promiseArray)
-	await User.deleteMany({})
 })
 
 describe('get requests', () => {
