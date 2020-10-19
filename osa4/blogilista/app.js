@@ -7,6 +7,7 @@ const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
+const tokenExtractor = require('./middlewares/tokenExtractor')
 
 logger.info('connecting to', config.MONGODB_URI)
 
@@ -26,6 +27,7 @@ mongoose
 
 app.use(cors())
 app.use(express.json())
+app.use(tokenExtractor)
 
 app.use('/api', blogsRouter)
 app.use('/api/users', usersRouter)
