@@ -1,6 +1,6 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJpZCI6IjVmOGQ2YWE3OTk0MmZjNmEzMjkyNmNiNCIsImlhdCI6MTYwMzEwNDg2MH0.xtCo2hpXc-Zh_eX0VrDbZSduZgIZb30wiTI5Xp3I_Aw
+Authorization: bearer 
 
 {
 	"title": "Testing the app",
